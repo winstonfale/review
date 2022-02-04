@@ -15,9 +15,9 @@ class IpMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!(in_array($request->ip(), config('whitelist.ip')))) {
-            return response(['message' =>  'Bad Request - Invalid IP', 'ip' => $request->ip()], 400);
-        }
+        // if (!(in_array($request->ip(), config('whitelist.ip')))) {
+        //     return response(['message' =>  'Bad Request - Invalid IP', 'ip' => $request->ip()], 400);
+        // }
 
         return $next($request);
     }
