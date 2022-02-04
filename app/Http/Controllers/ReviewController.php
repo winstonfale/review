@@ -18,7 +18,8 @@ class ReviewController extends Controller
 
         // $ratings = Cache::remember('ratings'.$id, (60 * 60 * 4), function () use ($id) {
             $sql = Review::query()
-            ->where('website_id', $id);
+            ->where('website_id', $id)
+            ->where('status',ReviewStatus::APPROVED);
 
     
             $sql = $sql->select(DB::raw('
@@ -37,6 +38,7 @@ class ReviewController extends Controller
         // });
 
         $reviews = Review::where('website_id', $id)
+        ->where('status',ReviewStatus::APPROVED)
         ->orderBy('created_at','DESC')
         ->paginate(5);
 
