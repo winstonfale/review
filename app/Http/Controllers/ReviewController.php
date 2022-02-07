@@ -14,8 +14,6 @@ class ReviewController extends Controller
 {
     public function index($id){
 
-      
-
         // $ratings = Cache::remember('ratings'.$id, (60 * 60 * 4), function () use ($id) {
             $sql = Review::query()
             ->where('website_id', $id)
@@ -46,8 +44,27 @@ class ReviewController extends Controller
     }
 
     public function lists(Request $request){
-        // return $request->all();
-        return Review::where('status',ReviewStatus::PENDING)->paginate(20) ;
+       
+        
+        $request->validate([
+            'status' => 'required|in:'.implode(',', ReviewStatus::getValues()).',all',
+            'order_by' => 'required|in:asc,desc',
+            'website_id' => 'required|in:'.implode(',', WebsiteIds::getValues()).',0'
+        ]);
+
+        $reviews = Review::query();
+
+        if($request->order_by !== 'all') {
+            $reviews->where('status',$request->status);
+        }
+
+        if($request->website_id != 0) {
+            $reviews->where('website_id',$request->website_id);
+        }
+
+        $reviews->orderBy('created_at',$request->order_by);
+
+        return  $reviews->paginate(20);
     }
 
     public function store(Request $request){

@@ -1908,6 +1908,45 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1964,10 +2003,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       data: {},
-      filters: {
+      filters: _defineProperty({
         page: 1,
-        website_id: 0
-      }
+        website_id: 0,
+        order_by: 'asc',
+        status: 0
+      }, "website_id", 0)
     };
   },
   mounted: function mounted() {
@@ -37597,10 +37638,159 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row justify-content-center" }, [
-    _c("div", { staticClass: "col-md-7" }, [
+    _c("div", { staticClass: "col-md-9" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
-          _vm._v("Comments and Reviews"),
+          _vm._v("Comments and Reviews\n\n\n                "),
+          _c("div", { staticClass: "float-right" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.filters.website_id,
+                    expression: "filters.website_id",
+                  },
+                ],
+                on: {
+                  change: [
+                    function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.filters,
+                        "website_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    function ($event) {
+                      $event.preventDefault()
+                      return _vm.init.apply(null, arguments)
+                    },
+                  ],
+                },
+              },
+              [
+                _c("option", { attrs: { value: "1" } }, [_vm._v("Shagtoday")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "2" } }, [
+                  _vm._v("HookUpToday"),
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "3" } }, [_vm._v("BeeDate")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "4" } }, [_vm._v("OhCupid")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "0" } }, [_vm._v("All Sites")]),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.filters.status,
+                    expression: "filters.status",
+                  },
+                ],
+                on: {
+                  change: [
+                    function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.filters,
+                        "status",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    function ($event) {
+                      $event.preventDefault()
+                      return _vm.init.apply(null, arguments)
+                    },
+                  ],
+                },
+              },
+              [
+                _c("option", { attrs: { value: "0" } }, [_vm._v("Pending")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "1" } }, [_vm._v("Approved")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "2" } }, [_vm._v("Rejected")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "all" } }, [
+                  _vm._v("All Reviews"),
+                ]),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.filters.order_by,
+                    expression: "filters.order_by",
+                  },
+                ],
+                on: {
+                  change: [
+                    function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.filters,
+                        "order_by",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    function ($event) {
+                      $event.preventDefault()
+                      return _vm.init.apply(null, arguments)
+                    },
+                  ],
+                },
+              },
+              [
+                _c("option", { attrs: { value: "asc" } }, [
+                  _vm._v("Date posted"),
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "desc" } }, [_vm._v("Latest")]),
+              ]
+            ),
+          ]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
@@ -37612,11 +37802,35 @@ var render = function () {
               _vm._v(" "),
               _vm._l(_vm.data.data, function (review, index) {
                 return _c("tr", { key: index }, [
-                  _c("td", [_vm._v(_vm._s(review.website_url))]),
+                  _c("td", [
+                    _c("strong", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(review.website_url) +
+                          "\n                            "
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(review.name) +
+                        "\n                        "
+                    ),
+                  ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(review.name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(review.comment))]),
+                  _c("td", [
+                    _c("strong", [
+                      _vm._v("  " + _vm._s(review.feedback) + " "),
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(review.comment) +
+                        "\n                        "
+                    ),
+                  ]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(review.rating))]),
                   _vm._v(" "),
@@ -37627,6 +37841,7 @@ var render = function () {
                       "button",
                       {
                         staticClass: "btn btn-sm btn-success",
+                        attrs: { disabled: review.status === 1 },
                         on: {
                           click: function ($event) {
                             $event.preventDefault()
@@ -37642,6 +37857,7 @@ var render = function () {
                       {
                         staticClass: "btn btn-sm btn-danger",
                         staticStyle: { "margin-top": "3px" },
+                        attrs: { disabled: review.status === 2 },
                         on: {
                           click: function ($event) {
                             $event.preventDefault()
@@ -37659,36 +37875,64 @@ var render = function () {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "text-center" }, [
-            _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-              _c(
-                "ul",
-                { staticClass: "pagination" },
-                _vm._l(_vm.data.last_page, function (page) {
-                  return _c(
-                    "li",
-                    {
-                      key: "k" + page,
-                      staticClass: "page-item",
-                      attrs: { disabled: page === _vm.filters.page },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.changePage(page)
+            _c(
+              "nav",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.data.total > 0,
+                    expression: "data.total > 0 ",
+                  },
+                ],
+              },
+              [
+                _c(
+                  "ul",
+                  { staticClass: "pagination" },
+                  _vm._l(_vm.data.last_page, function (page) {
+                    return _c(
+                      "li",
+                      {
+                        key: "k" + page,
+                        staticClass: "page-item",
+                        attrs: { disabled: page === _vm.filters.page },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.changePage(page)
+                          },
                         },
                       },
-                    },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "page-link", attrs: { href: "#" } },
-                        [_vm._v(" " + _vm._s(page) + " ")]
-                      ),
-                    ]
-                  )
-                }),
-                0
-              ),
-            ]),
+                      [
+                        _c(
+                          "a",
+                          { staticClass: "page-link", attrs: { href: "#" } },
+                          [_vm._v(" " + _vm._s(page) + " ")]
+                        ),
+                      ]
+                    )
+                  }),
+                  0
+                ),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !(_vm.data.total > 0),
+                    expression: "!(data.total > 0)",
+                  },
+                ],
+              },
+              [_vm._v("No results")]
+            ),
           ]),
         ]),
       ]),
@@ -37701,9 +37945,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("Website")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Name")]),
+      _c("th", { attrs: { width: "15%" } }, [_vm._v("Website & Name")]),
       _vm._v(" "),
       _c("th", [_vm._v("Comment")]),
       _vm._v(" "),
