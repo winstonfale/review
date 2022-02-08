@@ -11,15 +11,13 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/',  ['middleware' => 'guest', function()
+{
     return view('auth.login');
-});
+}]);
+
 
 Auth::routes(['register' => false]);
-
-
-
-
 Route::group([
     'middleware' => ['auth'],
 ], function ($app) {
