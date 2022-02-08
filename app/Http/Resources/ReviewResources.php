@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +24,7 @@ class ReviewResources extends JsonResource
         return [
             'name' => strtok($this->name, " "),
             'email' => $this->email,
-            'created_at' => $this->created_at->format('m d y h:i a'),
+            'created_at' => $this->created_time,
             'rating' => $this->rating,
             'feedback' => $this->feedback,
             'comment' => $this->comment,

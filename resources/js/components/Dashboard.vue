@@ -59,7 +59,7 @@
                                     {{ review.comment }}
                                 </td>
                                 <td>{{ review.rating }}</td>
-                                <td>{{ review.created_at }}</td>
+                                <td>{{ review.created_time }} </td>
                                 <td>
                                     <button :disabled="review.status === 1" class="btn btn-sm btn-success" @click.prevent="approve(review.id, index)">Approve</button>
                                     <button :disabled="review.status === 2" style="margin-top:3px" class="btn btn-sm btn-danger" @click.prevent="reject(review.id, index)">Reject</button>
@@ -74,11 +74,8 @@
                                     <li @click.prevent="changePage(page)" class="page-item" v-for="page in data.last_page" :key="'k'+page" :disabled="page === filters.page"><a class="page-link" href="#"> {{ page }} </a></li>
                                 </ul>
                             </nav>
-
                             <p v-show="!(data.total > 0)">No results</p>
                         </div>
-
-                       
                     </div>
                 </div>
             </div>

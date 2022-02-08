@@ -6,13 +6,21 @@ use App\Enums\ReviewStatus;
 use App\Enums\WebsiteIds;
 use App\Http\Resources\ReviewResources;
 use App\Models\Review;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ReviewController extends Controller
 {
+
     public function index($id){
+        try {
+            $id = decrypt($id);
+        } catch (Exception $e) {
+            return response([],400);
+        }
 
         // $ratings = Cache::remember('ratings'.$id, (60 * 60 * 4), function () use ($id) {
             $sql = Review::query()
@@ -68,6 +76,12 @@ class ReviewController extends Controller
     }
 
     public function store(Request $request){
+
+        try {
+            $request->merge(array('site_id' => decrypt($request->site_id)));
+        } catch (Exception $e) {
+            return response([],400);
+        }
 
         $request->validate([
             'comment' => 'required',
