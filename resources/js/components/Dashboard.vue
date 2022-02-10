@@ -26,8 +26,8 @@
 
                             
                             <select v-model="filters.order_by" @change.prevent="init">
-                                <option value="asc">Date posted</option>
-                                <option value="desc">Latest</option>
+                                <option value="asc">Sort by Oldest</option>
+                                <option value="desc">Sort by Latest</option>
                             </select>
                         </div>
 

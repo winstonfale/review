@@ -37842,10 +37842,12 @@ var render = function () {
               },
               [
                 _c("option", { attrs: { value: "asc" } }, [
-                  _vm._v("Date posted"),
+                  _vm._v("Sort by Oldest"),
                 ]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "desc" } }, [_vm._v("Latest")]),
+                _c("option", { attrs: { value: "desc" } }, [
+                  _vm._v("Sort by Latest"),
+                ]),
               ]
             ),
           ]),
