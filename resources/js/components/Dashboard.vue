@@ -99,6 +99,18 @@
                 }
             }
         },
+
+        created(){
+          let uri = window.location.search.substring(1); 
+          let params = new URLSearchParams(uri);
+
+          let obj = this.filters;
+          Object.keys(obj).forEach((key) => {
+              if(params.get(key)) {
+                  this.filters[key] = params.get(key)
+              }
+          });
+        },
  
         mounted() {
             this.init()
@@ -106,6 +118,10 @@
 
         methods: {
             init(){
+                try {
+                    window.history.replaceState('Dashboard', 'Dashboard', window.location.pathname + '?' +new URLSearchParams(this.filters).toString())
+                } catch (e) { }
+
                 axios.get(
                     '/reviews', {
                         params: this.filters
