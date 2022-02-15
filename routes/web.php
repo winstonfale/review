@@ -22,9 +22,9 @@ Route::group([
     'middleware' => ['auth'],
 ], function ($app) {
 
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/websites', 'HomeController@websites')->name('websites');
-    Route::get('/websites/info', 'HomeController@websitesInfo')->name('websites.info');
+    $app->get('/home', 'HomeController@index')->name('home');
+    $app->get('/websites', 'HomeController@websites')->name('websites');
+    $app->get('/websites/info', 'HomeController@websitesInfo')->name('websites.info');
 
     $app->get('reviews', 'ReviewController@lists');
     $app->get('review/{id}', 'ReviewController@index');
@@ -32,6 +32,9 @@ Route::group([
 
     $app->post('review/{id}/approve', 'ReviewController@approve');
     $app->post('review/{id}/reject', 'ReviewController@reject');
+
+    $app->post('review/{id}/mark-as-relevant', 'ReviewController@relevant');
+    $app->post('review/{id}/mark-as-unrelevant', 'ReviewController@unrelevant');
 
  
 });

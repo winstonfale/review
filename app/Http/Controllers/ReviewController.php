@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class ReviewController extends Controller
 {
 
-    public function index($id){
+    public function index($id, Request $request){
         try {
             $id = decrypt($id);
         } catch (Exception $e) {
@@ -27,7 +27,6 @@ class ReviewController extends Controller
             ->where('website_id', $id)
             ->where('status',ReviewStatus::APPROVED);
 
-    
             $sql = $sql->select(DB::raw('
                 count(id) as total, 
                 count(CASE WHEN rating = 5 THEN 1 END) as five_rating,
@@ -43,9 +42,11 @@ class ReviewController extends Controller
         //     return $sql->first();
         // });
 
+        $sort_by = $request->sort && $request->sort === 'relevant' ? 'relevant' : 'created_at';
+
         $reviews = Review::where('website_id', $id)
         ->where('status',ReviewStatus::APPROVED)
-        ->orderBy('created_at','DESC')
+        ->orderBy($sort_by,'DESC')
         ->paginate(5);
 
         return ReviewResources::collection($reviews)->additional(['ratings' => $sql->first()]);
@@ -104,9 +105,13 @@ class ReviewController extends Controller
     }
 
 
-    public function approve($id){
+    public function approve($id, Request $request){
 
        $review =  Review::findOrfail($id);
+
+       if($request->relevant) {
+            $review->relevant = 1;
+       }
 
        $review->status = ReviewStatus::APPROVED;
        $review->save();
@@ -120,6 +125,26 @@ class ReviewController extends Controller
         $review =  Review::findOrfail($id);
 
         $review->status = ReviewStatus::REJECTED;
+        $review->save();
+ 
+         return  $review ;
+    }
+
+    public function relevant($id){
+
+        $review =  Review::findOrfail($id);
+
+        $review->relevant = 1;
+        $review->save();
+ 
+        return  $review ;
+    }
+
+    public function unrelevant($id){
+
+        $review =  Review::findOrfail($id);
+
+        $review->relevant = 0;
         $review->save();
  
          return  $review ;

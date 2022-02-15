@@ -43,7 +43,7 @@
                                 <th>Comment</th>
                                 <th>Rating</th>
                                 <th>Date</th>
-                                <th>Action</th>
+                                <th width="15%">Action</th>
                             </thead>
 
                             <tr v-for="(review,index) in data.data" :key="index">
@@ -61,8 +61,15 @@
                                 <td>{{ review.rating }}</td>
                                 <td>{{ review.created_time }} </td>
                                 <td>
-                                    <button :disabled="review.status === 1" class="btn btn-sm btn-success" @click.prevent="approve(review.id, index)">Approve</button>
-                                    <button :disabled="review.status === 2" style="margin-top:3px" class="btn btn-sm btn-danger" @click.prevent="reject(review.id, index)">Reject</button>
+                                    <button v-if="review.status === 1 && review.relevant === 0" style="margin-top:3px; margin-bottom: 5px" class="btn btn-sm btn-info form-control" @click.prevent="markAsRelevant(review.id, index)">Make as relevant</button>
+                                    <button v-if="review.status === 1 && review.relevant === 1" style="margin-top:3px; margin-bottom: 5px" class="btn btn-sm btn-warning form-control" @click.prevent="markAsUnrelevant(review.id, index)">Remove as relevant</button>
+
+
+                                    <button v-if="review.status === 0" style="margin-top:3px; margin-bottom: 5px" class="btn btn-sm btn-success" @click.prevent="approve(review.id, index, true)">Approve and make as relevant</button>
+                                    
+                                    <button v-if="review.status === 0 || review.status === 2" class="btn btn-sm btn-success form-control" @click.prevent="approve(review.id, index)">Approve</button>
+                                   
+                                    <button v-if="review.status === 0 || review.status === 1" style="margin-top:3px" class="btn btn-sm btn-danger form-control" @click.prevent="reject(review.id, index)">Reject</button>
                                 </td>
                             </tr>
 
@@ -131,9 +138,9 @@
                 ])
             },
 
-             approve(id,index){
+             approve(id,index, relevant = false){
                 axios.post(
-                    '/review/'+id+'/approve')
+                    '/review/'+id+'/approve', { relevant: relevant })
                 .then((res) => [
                     this.data.data.splice(index,1)
                 ])
@@ -144,6 +151,22 @@
                     '/review/'+id+'/reject')
                 .then((res) => [
                     this.data.data.splice(index,1)
+                ])
+            },
+
+            markAsRelevant(id,index){
+                axios.post(
+                    '/review/'+id+'/mark-as-relevant')
+                .then((res) => [
+                   this.data.data[index]['relevant'] = res.data.relevant
+                ])
+            },
+
+            markAsUnrelevant(id,index){
+                axios.post(
+                    '/review/'+id+'/mark-as-unrelevant')
+                .then((res) => [
+                    this.data.data[index]['relevant'] = res.data.relevant
                 ])
             },
 
