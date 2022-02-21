@@ -11,7 +11,7 @@
                             <thead>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Unique key</th>
+                                <th>Keys</th>
                             </thead>
 
                             <tr v-for="website in data" :key="website.id">

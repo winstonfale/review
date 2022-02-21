@@ -15,4 +15,6 @@ final class WebsiteIds extends Enum
     const HookUpToday =   2;
     const BeeDate = 3;
     const OhCupid = 4;
+    const HookUp69 = 5;
+    const WannaHookup = 6;
 }
