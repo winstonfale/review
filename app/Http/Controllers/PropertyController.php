@@ -13,7 +13,7 @@ class PropertyController extends Controller
                 'shagtoday' => [
                     'url' => 'https://shagtoday.co.uk/',
                     'members' => 418490,
-                    'reviews' => 5320,
+                    'reviews' => 3694,
                     'ratings' => 4.9
                 ],
                 'hookuptoday' => [
@@ -33,7 +33,21 @@ class PropertyController extends Controller
                     'members' => null,
                     'reviews' => 1874,
                     'ratings' => 3.9
-                ]
+                ],
+
+                'hookup69' => [
+                    'url' => 'https://hookup69.com/',
+                    'members' => 224456,
+                    'reviews' => 2645,
+                    'ratings' => 4.8
+                ],
+
+                'wannahookup' => [
+                    'url' => 'https://wannahookup.com/',
+                    'members' => 171023,
+                    'reviews' => 2047,
+                    'ratings' => 4.8
+                ],
             ]
         ]);
     }

@@ -4,10 +4,7 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">Comments and Reviews
-
-
                         <div class="float-right">
-
                           <select v-model="filters.website_id" @change.prevent="init">
                                 <option value="1">Shagtoday</option>
                                 <option value="2">HookUpToday</option>
@@ -30,14 +27,19 @@
                                 <option value="desc">Sort by Latest</option>
                             </select>
                         </div>
-
                     </div>
                     <div class="card-body">
 
-         
+                        <div class="row mb-2">
+                            <div class="col-2 offset-8">
+                                <button class="btn btn-sm btn-success form-control" @click.prevent="approveSelected">Approve Selected</button>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-sm btn-success form-control" @click.prevent="approveAll">Approve All</button>
+                            </div>
+                        </div>
 
                         <table class="table">
-
                             <thead>
                                 <th width="15%">Website & Name</th>
                                 <th>Comment</th>
@@ -49,7 +51,10 @@
                             <tr v-for="(review,index) in data.data" :key="index">
                                 <td>
                                     <strong>
-                                        {{ review.website_url }}
+                                        <label>
+                                             <input type="checkbox" name="selected" v-model="selected" :value="review.id">
+                                            {{ review.website_url }}
+                                        </label>
                                     </strong>
                                     <br>
                                     {{ review.name }}
@@ -103,7 +108,8 @@
                     order_by: 'asc',
                     status: 0,
                     website_id: 0
-                }
+                },
+                selected: []
             }
         },
 
@@ -138,7 +144,7 @@
                 ])
             },
 
-             approve(id,index, relevant = false){
+            approve(id,index, relevant = false){
                 axios.post(
                     '/review/'+id+'/approve', { relevant: relevant })
                 .then((res) => [
@@ -177,7 +183,42 @@
 
                 this.filters.page = page;
                 this.init()
-            }
+            },
+
+            approveSelected(){
+                this.approveBundle(this.selected)
+            },
+
+            approveAll(){
+                if (!window.confirm("Do you really want to approve all?")) {
+                    return;
+                }
+
+                this.approveBundle(this.pluck(this.data.data,'id'))
+            },
+
+            pluck(array, key) {
+                return array.map(function(obj) {
+                    return obj[key];
+                });
+            },
+
+            approveBundle(ids){
+                if(ids.length < 1) {
+                    return;
+                }
+                axios.post(
+                    'review/approve/bundle',  {ids: ids })
+                .then((res) => {
+                    ids.forEach((item, index) => {
+                        this.data.data.splice(item.id,1)
+                    });
+
+                    if(this.data.data.length < 1) {
+                        this.init()
+                    }
+                })
+            },
         }
     }
 </script>

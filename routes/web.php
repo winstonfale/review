@@ -33,6 +33,8 @@ Route::group([
     $app->post('review/{id}/approve', 'ReviewController@approve');
     $app->post('review/{id}/reject', 'ReviewController@reject');
 
+    $app->post('review/approve/bundle', 'ReviewController@approveBundle');
+
     $app->post('review/{id}/mark-as-relevant', 'ReviewController@relevant');
     $app->post('review/{id}/mark-as-unrelevant', 'ReviewController@unrelevant');
 

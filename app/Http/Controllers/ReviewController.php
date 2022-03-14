@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\DB;
 class ReviewController extends Controller
 {
 
-    public function index($id, Request $request){
+    public function index($id, Request $request)
+    {
         try {
             $id = decrypt($id);
         } catch (Exception $e) {
@@ -52,7 +53,8 @@ class ReviewController extends Controller
         return ReviewResources::collection($reviews)->additional(['ratings' => $sql->first()]);
     }
 
-    public function lists(Request $request){
+    public function lists(Request $request)
+    {
        
         
         $request->validate([
@@ -76,7 +78,8 @@ class ReviewController extends Controller
         return  $reviews->paginate(20);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         try {
             $request->merge(array('site_id' => decrypt($request->site_id)));
@@ -105,7 +108,8 @@ class ReviewController extends Controller
     }
 
 
-    public function approve($id, Request $request){
+    public function approve($id, Request $request)
+    {
 
        $review =  Review::findOrfail($id);
 
@@ -120,7 +124,22 @@ class ReviewController extends Controller
     }
 
 
-    public function reject($id){
+    public function approveBundle(Request $request) 
+    {
+        $request->validate([
+            'ids' => 'required|array'
+        ]);
+
+        $reviews = Review::whereIn('id',$request->ids)
+        ->update(['status' => ReviewStatus::APPROVED]);
+
+        return $reviews;
+
+    }
+
+
+    public function reject($id)
+    {
 
         $review =  Review::findOrfail($id);
 
@@ -130,7 +149,8 @@ class ReviewController extends Controller
          return  $review ;
     }
 
-    public function relevant($id){
+    public function relevant($id)
+    {
 
         $review =  Review::findOrfail($id);
 
@@ -140,7 +160,8 @@ class ReviewController extends Controller
         return  $review ;
     }
 
-    public function unrelevant($id){
+    public function unrelevant($id)
+    {
 
         $review =  Review::findOrfail($id);
 
