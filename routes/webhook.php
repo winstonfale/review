@@ -14,14 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::group([
-    'middleware' => ['ipcheck'],
 ], function ($app) {
-    $app->get('properties', 'PropertyController@index');
-    $app->get('reviews', 'ReviewController@lists');
-    $app->get('review/{id}', 'ReviewController@index');
-    $app->post('review/create', 'ReviewController@store');
-
-    $app->post('review/create', 'ReviewController@store');
-
-    $app->post('cid/store', 'ClickController@store');
+    $app->get('ping/cid', 'WebhookController@store');
 });
