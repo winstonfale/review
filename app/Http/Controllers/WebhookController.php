@@ -9,7 +9,7 @@ class WebhookController extends Controller
 {
     public function store(Request $request) {
 
-        $postback = ClickPostback::where('cid',$request->s2)
+        $postback = ClickPostback::where('cid',$request->s1)
             ->whereNull('postback')
             ->first();
 
