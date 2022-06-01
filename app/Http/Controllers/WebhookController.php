@@ -16,6 +16,7 @@ class WebhookController extends Controller
         if(!$postback) {
             return response('Not Found',404);
         }
+        $postback->amount = $request->s2;
         $postback->postback = now();
         $postback->save();
 
