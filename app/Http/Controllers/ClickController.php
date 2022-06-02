@@ -14,7 +14,8 @@ class ClickController extends Controller
         ]);
 
         ClickPostback::firstOrCreate([
-            'cid' => $request->cid
+            'cid' => $request->cid,
+            'amount' => 0
         ]);
 
         return response()->noContent();
