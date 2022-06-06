@@ -13,11 +13,13 @@ class ClickController extends Controller
             'cid' => 'required'
         ]);
 
-        ClickPostback::firstOrCreate([
+        $cp = ClickPostback::firstOrCreate([
             'cid' => $request->cid,
             'amount' => 0
         ]);
 
-        return response()->noContent();
+        return response([
+            'cid' => $cp->id
+        ]);
     }
 }
