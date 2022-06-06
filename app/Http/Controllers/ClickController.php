@@ -19,7 +19,7 @@ class ClickController extends Controller
         ]);
 
         return response([
-            'cid' => $cp->id
+            'cid' => $cp->cid
         ]);
     }
 }
