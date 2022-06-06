@@ -113,16 +113,13 @@
                 try {
                     window.history.replaceState('Dashboard', 'Dashboard', window.location.pathname + '?' +new URLSearchParams(this.filters).toString())
                 } catch (e) { }
-
-                console.log(this.filters.to)
-
                 axios.post(
                     '/clicks', {
                         to: this.filters.to,
                         from: this.filters.from
                      })
                 .then((res) => [
-                    this.data = res.data  
+                    this.data = res  
                 ])
             },
         }
