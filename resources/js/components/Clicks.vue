@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Comments and Reviews
+                    <div class="card-header">Clicks
                         <div class="float-right">
                           <!-- <select v-model="filters.website_id" @change.prevent="init">
                                 <option value="1">Shagtoday</option>
@@ -34,16 +34,6 @@
                         </div>
                     </div>
                     <div class="card-body">
-
-                        <div class="row mb-2">
-                            <div class="col-2 offset-8">
-                                <button class="btn btn-sm btn-success form-control" @click.prevent="approveSelected">Approve Selected</button>
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-sm btn-success form-control" @click.prevent="approveAll">Approve All</button>
-                            </div>
-                        </div>
-
                         <table class="table">
                             <thead>
                                 <th width="15%">Date</th>
@@ -107,7 +97,6 @@
         mounted() {
             this.init()
         },
-
         methods: {
             init(){
                 try {
