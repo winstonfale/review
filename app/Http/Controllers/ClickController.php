@@ -41,6 +41,7 @@ class ClickController extends Controller
             DB::raw('SUM(CASE when postback IS NOT NULL then 1 ELSE 0 END) as conversions')
         )->whereBetween('created_at',[$from, $to])
         ->groupBy('date')
+        ->orderBy('date','DESC')
         ->get();
 
         return response($clicks);
