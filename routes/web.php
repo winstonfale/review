@@ -38,5 +38,14 @@ Route::group([
     $app->post('review/{id}/mark-as-relevant', 'ReviewController@relevant');
     $app->post('review/{id}/mark-as-unrelevant', 'ReviewController@unrelevant');
 
+    $app->get('clicks', 'ClickController@index')->name('clicks');;
+    $app->post('clicks', 'ClickController@indexData');
+
+
+    $app->group(['namespace' => '\Rap2hpoutre\LaravelLogViewer'], function() use ($app) {
+        $app->get('logs', 'LogViewerController@index');
+    });
+
  
 });
+

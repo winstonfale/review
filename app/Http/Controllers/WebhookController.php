@@ -14,6 +14,7 @@ class WebhookController extends Controller
             ->first();
 
         if(!$postback) {
+            info('Postback:' . json_encode($request->all()));
             return response('Not Found',404);
         }
         $postback->amount = $request->s2;
