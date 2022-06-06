@@ -10,7 +10,7 @@ class ClickController extends Controller
     public function store(Request $request) {
 
         $request->validate([
-            'cid' => 'required|digits:16'
+            'cid' => 'required'
         ]);
 
         ClickPostback::firstOrCreate([

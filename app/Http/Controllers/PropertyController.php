@@ -48,6 +48,22 @@ class PropertyController extends Controller
                     'reviews' => 2047,
                     'ratings' => 4.8
                 ],
+
+                'honeynearby' => [
+                    'url' => null,
+                    'members' => null,
+                    'reviews' => 1874,
+                    'ratings' => 3.9
+                ],
+
+                'site2night' => [
+                    'url' => null,
+                    'members' => null,
+                    'reviews' => 1874,
+                    'ratings' => 3.9
+                ],
+
+                
             ]
         ]);
     }
