@@ -21,8 +21,8 @@ class ClickController extends Controller
 
     public function indexData(Request $request)
     {
-        $from = @$request->from ? Carbon::parse($request->from) : now();
-        $to = @$request->to ? Carbon::parse($request->to) : now();
+        $from = @$request->from ? Carbon::parse($request->from)->startOfDay() : today()->subDay(7);
+        $to = @$request->to ? Carbon::parse($request->to)->endOfDay() : now();
 
 
         $clicks = ClickPostback::select(
