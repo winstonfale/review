@@ -60,10 +60,8 @@ class PropertyController extends Controller
                     'url' => null,
                     'members' => null,
                     'reviews' => 1874,
-                    'ratings' => 3.9
+                    'ratings' => 4.1
                 ],
-
-                
             ]
         ]);
     }
