@@ -32,12 +32,16 @@ class WebhookController extends Controller
 
         if(!$postback) {
             info('Postback:' . json_encode($request->all()));
-            return response('Not Found',404);
+            return response([
+                'message' => 'No record'
+            ],200);
         }
         $postback->amount = @$request->amount ? $request->amount : 0;
         $postback->postback = now();
         $postback->save();
 
-       return response('Success');
+        return response([
+            'message' => 'Success'
+        ],200);
     }
 }
