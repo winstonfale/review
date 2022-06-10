@@ -15,5 +15,6 @@ use Illuminate\Http\Request;
 
 Route::group([
 ], function ($app) {
-    $app->get('ping/cid', 'WebhookController@store');
+    $app->get('conversion', 'WebhookController@conversion');
+    $app->post('conversion', 'WebhookController@conversion');
 });
