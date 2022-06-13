@@ -6,6 +6,7 @@ use App\Models\ClickPostback;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\DocBlock\Tags\Since;
 
 class ClickController extends Controller
 {
@@ -58,13 +59,48 @@ class ClickController extends Controller
             'cid' => $request->cid,
             'amount' => 0,
 
-            'pagesource' => @$request->pagesource,
+            'page_source' => @$request->page_source,
             'device' => @$request->device,
             'browser' => @$request->browser,
+
+            's1' => @$request->s1,
+            's2' => @$request->s2,
+            's3' => @$request->s3,
+            's4' => @$request->s4,
+            's5' => @$request->s5,
+
+            'currency' => $this->getCurrency($request->site_id),
+            'site_id' => @$request->site_id,
+            'site_source' => @$request->site_source,
         ]);
 
         return response([
             'cid' => $cp->cid
         ]);
+    }
+
+    //  const Shagtoday =   1;
+    // const HookUpToday =   2;
+    // const Site2night = 3;
+    // const HoneyNearby = 4;
+    // const HookUp69 = 5;
+    // const WannaHookup = 6;
+
+    private function getCurrency($site_id){
+
+         $eur = [1,2,3,4];
+         $cad = [5];
+         $usd = [1,2,3,4];
+
+        if(in_array($site_id, $eur)) {
+            return 'EUR';
+        }
+
+        if(in_array($site_id, $cad)) {
+            return 'CAD';
+        }
+
+        return 'USD';
+
     }
 }
