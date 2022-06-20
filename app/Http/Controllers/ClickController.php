@@ -16,8 +16,23 @@ class ClickController extends Controller
         $this->middleware('auth')->except('store');
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+     {
         return view('clicks');
+    }
+
+    public function overall()
+     {
+
+        $data = [
+           'today' => ClickPostback::select('amount')->whereBetween('postback',[today(),now()])->sum('amount'),
+        //    'yesterday' => ClickPostback::select('amount')->whereBetween('postback',[today()->subDay()->startOfDay(),today()->subDay()->endOfDay()])->sum('amount'),
+           'this_week' => ClickPostback::select('amount')->whereBetween('postback',[today()->startOfWeek(),now()])->sum('amount'),
+           'this_month' => ClickPostback::select('amount')->whereBetween('postback',[today()->startOfMonth(),now()])->sum('amount'),
+           'this_year' => ClickPostback::select('amount')->whereBetween('postback',[today()->startOfYear(),now()])->sum('amount'),
+        ];
+          
+        return response($data);
     }
 
     public function indexData(Request $request)
@@ -31,18 +46,23 @@ class ClickController extends Controller
 
             DB::raw('COUNT(CASE when postback IS NOT NULL and site_id = 1 then id END) as shag_conversions'),
             DB::raw('COUNT(CASE when site_id = 1 then id END) as shag_clicks'),
+            DB::raw('SUM(CASE when postback IS NOT NULL and site_id = 1 then amount ELSE 0 END) as shag_earnings'),
 
             DB::raw('COUNT(CASE when postback IS NOT NULL and site_id = 2 then id END) as hut_conversions'),
             DB::raw('COUNT(CASE when site_id = 2 then id END) as hut_clicks'),
+            DB::raw('SUM(CASE when postback IS NOT NULL and site_id = 2 then amount ELSE 0 END) as hut_earnings'),
 
             DB::raw('COUNT(CASE when postback IS NOT NULL and site_id = 3 then id END) as site_2_night_conversions'),
             DB::raw('COUNT(CASE when site_id = 3 then id END) as site_2_night'),
+            DB::raw('SUM(CASE when postback IS NOT NULL and site_id = 3 then amount ELSE 0 END) as site_2_night_earnings'),
 
             DB::raw('COUNT(CASE when postback IS NOT NULL and site_id = 4 then id END) as honey_nearby_conversions'),
             DB::raw('COUNT(CASE when site_id = 4 then id END) as honey_nearby'),
+            DB::raw('SUM(CASE when postback IS NOT NULL and site_id = 4 then amount ELSE 0 END) as honey_nearby_earnings'),
 
             DB::raw('COUNT(id) as clicks'),
-            DB::raw('SUM(CASE when postback IS NOT NULL then 1 ELSE 0 END) as conversions')
+            DB::raw('SUM(CASE when postback IS NOT NULL then 1 ELSE 0 END) as conversions'),
+            DB::raw('SUM(CASE when postback IS NOT NULL then amount ELSE 0 END) as earnings')
 
         )->whereBetween('created_at',[$from, $to])
         ->groupBy('date')

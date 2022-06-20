@@ -5,35 +5,24 @@
                 <div class="card">
                     <div class="card-header">Clicks
                         <div class="float-right">
-                          <!-- <select v-model="filters.website_id" @change.prevent="init">
-                                <option value="1">Shagtoday</option>
-                                <option value="2">HookUpToday</option>
-                                <option value="3">BeeDate</option>
-                                <option value="4">OhCupid</option>
-                                <option value="0">All Sites</option>
-                            </select>
-
-
-                            <select v-model="filters.status" @change.prevent="init">
-                                <option value="0">Pending</option>
-                                <option value="1">Approved</option>
-                                <option value="2">Rejected</option>
-                                <option value="all">All Reviews</option>
-                            </select>
-
-                            
-                            <select v-model="filters.order_by" @change.prevent="init">
-                                <option value="asc">Sort by Oldest</option>
-                                <option value="desc">Sort by Latest</option>
-                            </select> -->
-
                             <input type="date" v-model="filters.from" @change="init">
-
                              <input type="date" v-model="filters.to" @change="init">
-
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3" v-for="(overall,index) in overalls" :key="'overall'+index">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ index | wordFilter }}</h5>
+                                        <p class="card-text">€{{ overall }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
                         Note Legend: Clicks | Conversion
                         <table class="table">
                             <thead>
@@ -47,11 +36,11 @@
 
                             <tr v-for="(clicks,index) in data.data" :key="index">
                                <td> {{ clicks.date }} </td>
-                                <td> {{ clicks.shag_clicks }} | <strong>{{ clicks.shag_conversions }}</strong> </td>
-                                <td> {{ clicks.hut_clicks }} | <strong>{{ clicks.hut_conversions }}</strong> </td>
-                                <td> {{ clicks.site_2_night }} | <strong>{{ clicks.site_2_night_conversions }}</strong> </td>
-                                <td> {{ clicks.honey_nearby }} | <strong>{{ clicks.honey_nearby_conversions }}</strong> </td>
-                                <td> {{ clicks.clicks }} | <strong>{{ clicks.conversions }}</strong> </td>
+                                <td> {{ clicks.shag_clicks }} | <strong>{{ clicks.shag_conversions }}</strong> | €{{ clicks.shag_earnings }} </td>
+                                <td> {{ clicks.hut_clicks }} | <strong>{{ clicks.hut_conversions }}</strong> | €{{ clicks.hut_earnings }} </td>
+                                <td> {{ clicks.site_2_night }} | <strong>{{ clicks.site_2_night_conversions }}</strong>  | €{{ clicks.site_2_night_earnings }} </td>
+                                <td> {{ clicks.honey_nearby }} | <strong>{{ clicks.honey_nearby_conversions }}</strong> | €{{ clicks.honey_nearby_earnings }} </td>
+                                <td> {{ clicks.clicks }} | <strong>{{ clicks.conversions }}</strong> | €{{ clicks.earnings }} </td>
                             </tr>
 
                         </table>
@@ -83,7 +72,8 @@
                     to: new Date(new Date).toISOString().slice(0, 10)
 
                 },
-                selected: []
+                selected: [],
+                overalls:[]
             }
         },
 
@@ -100,9 +90,34 @@
         },
  
         mounted() {
-            this.init()
+            this.cards()
         },
+
+        filters: {
+            wordFilter(str) {
+             return str
+                .split('_')
+                .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ');    
+            }
+        },
+
         methods: {
+            cards(){
+                axios.get(
+                    '/overall')
+                .then((res) => [
+                    this.overalls = res.data
+                ])
+                .catch((err) => {
+
+                })
+                .then(() => {
+                    this.init()
+                })
+
+            },
+
             init(){
                 try {
                     window.history.replaceState('Dashboard', 'Dashboard', window.location.pathname + '?' +new URLSearchParams(this.filters).toString())

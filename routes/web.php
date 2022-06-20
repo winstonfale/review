@@ -41,6 +41,7 @@ Route::group([
     $app->get('clicks', 'ClickController@index')->name('clicks');;
     $app->post('clicks', 'ClickController@indexData');
 
+    $app->get('overall', 'ClickController@overall');
 
     $app->group(['namespace' => '\Rap2hpoutre\LaravelLogViewer'], function() use ($app) {
         $app->get('logs', 'LogViewerController@index');
