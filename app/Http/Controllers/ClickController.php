@@ -29,17 +29,21 @@ class ClickController extends Controller
         $clicks = ClickPostback::select(
             DB::raw('DATE(created_at) as date'),
 
-            DB::raw('SUM(CASE when pagesource = "home" then 1 ELSE 0 END) as home_clicks'),
-            DB::raw('SUM(CASE when pagesource = "toplink" then 1 ELSE 0 END) as toplink_clicks'),
-            DB::raw('SUM(CASE when pagesource = "casual" then 1 ELSE 0 END) as casual_clicks'),
-            DB::raw('SUM(CASE when pagesource = "hookup" then 1 ELSE 0 END) as hookup_clicks'),
-            DB::raw('SUM(CASE when pagesource = "mature" then 1 ELSE 0 END) as mature_clicks'),
-            DB::raw('SUM(CASE when pagesource = "blog" then 1 ELSE 0 END) as blog_clicks'),
-            DB::raw('SUM(CASE when pagesource = "comparison" then 1 ELSE 0 END) as comparison_clicks'),
-            
+            DB::raw('COUNT(CASE when postback IS NOT NULL and site_id = 1 then id END) as shag_conversions'),
+            DB::raw('COUNT(CASE when site_id = 1 then id END) as shag_clicks'),
+
+            DB::raw('COUNT(CASE when postback IS NOT NULL and site_id = 2 then id END) as hut_conversions'),
+            DB::raw('COUNT(CASE when site_id = 2 then id END) as hut_clicks'),
+
+            DB::raw('COUNT(CASE when postback IS NOT NULL and site_id = 3 then id END) as site_2_night_conversions'),
+            DB::raw('COUNT(CASE when site_id = 3 then id END) as site_2_night'),
+
+            DB::raw('COUNT(CASE when postback IS NOT NULL and site_id = 4 then id END) as honey_nearby_conversions'),
+            DB::raw('COUNT(CASE when site_id = 4 then id END) as honey_nearby'),
 
             DB::raw('COUNT(id) as clicks'),
             DB::raw('SUM(CASE when postback IS NOT NULL then 1 ELSE 0 END) as conversions')
+
         )->whereBetween('created_at',[$from, $to])
         ->groupBy('date')
         ->orderBy('date','DESC')
