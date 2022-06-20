@@ -34,19 +34,24 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        Note Legend: Clicks | Conversion
                         <table class="table">
                             <thead>
                                 <th width="15%">Date</th>
-                                <th>Clicks</th>
-                                <th>Conversion</th>
+                                <th>ShagToday</th>
+                                <th>HookupToday</th>
+                                <th>Site2Night</th>
+                                <th>HoneyNearby</th>
+                                <th>Total</th>
                             </thead>
 
                             <tr v-for="(clicks,index) in data.data" :key="index">
-
-                                <td> {{ clicks.date }} </td>
-                                <td> {{ clicks.clicks }} </td>
-                               <td> {{ clicks.conversions }} </td>
-                              
+                               <td> {{ clicks.date }} </td>
+                                <td> {{ clicks.shag_clicks }} | <strong>{{ clicks.shag_conversions }}</strong> </td>
+                                <td> {{ clicks.hut_clicks }} | <strong>{{ clicks.hut_conversions }}</strong> </td>
+                                <td> {{ clicks.site_2_night }} | <strong>{{ clicks.site_2_night_conversions }}</strong> </td>
+                                <td> {{ clicks.honey_nearby }} | <strong>{{ clicks.honey_nearby_conversions }}</strong> </td>
+                                <td> {{ clicks.clicks }} | <strong>{{ clicks.conversions }}</strong> </td>
                             </tr>
 
                         </table>
