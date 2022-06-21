@@ -9,19 +9,26 @@
         <div class="row justify-content-center">
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header cursor" @click="reset(0)">Campaigns <br>
+                    <div class="card-header ">Campaigns 
+
+                       <div class="float-right">
+                            <input type="date" v-model="from" @change="fetch(groupBy,siteId)">
+                             <input type="date" v-model="to" @change="fetch(groupBy,siteId)">
+                        </div>
+                    
+                    <br>
                     <small> {{ _breadCrumbs }}</small>
                     </div>
 
                         <table class="table">
                             <thead>
-                                <th width="15%">Campaign Name</th>
+                                <th width="40%" @click="reset(0)" class="cursor">Campaign Name (Reset)</th>
                                 <th>Clicks</th>
                                 <th>Conversions</th>
                             </thead>
 
                             <tr v-for="(campaign,index) in containers" :key="campaign.name + index + '1'">
-                               <td width="40%" class="cursor"> {{ getBreadCrumbs(campaign.tag) }} {{ campaign.name | filterName }} </td>
+                               <td width="40%" class="cursor" @click="insertToContainer(campaign, false)"> {{ getBreadCrumbs(campaign.tag) }} {{ campaign.name | filterName }} </td>
                                <td> {{ campaign.clicks }} </td>
                                <td> {{ campaign.conversions }} </td>
                             </tr>
@@ -30,6 +37,10 @@
                                <td width="40%" class="cursor" @click="insertToContainer(campaign)"> {{ getBreadCrumbs(campaign.tag) }} {{ campaign.name | filterName }} </td>
                                <td> {{ campaign.clicks }} </td>
                                <td> {{ campaign.conversions }} </td>
+                            </tr>
+
+                            <tr v-show="campaigns.length === 0">
+                                <td colspan="3">No Data</td>
                             </tr>
                         </table>
                 </div>
@@ -52,7 +63,9 @@
                 s4: '',
                 s5: '',
                 groupBy: 'site_id',
-                siteId: null
+                siteId: null,
+                from: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().slice(0, 10),
+                to: new Date(new Date).toISOString().slice(0, 10)
             }
         },
 
@@ -148,6 +161,8 @@
                         s5: this.s5,
                         groupBy: groupBy,
                         siteId: siteId,
+                        to: this.to,
+                        from: this.from
                     })
                 .then((res) => [
                     this.campaigns = res.data
@@ -171,7 +186,7 @@
                 ])
             },
 
-            insertToContainer(campaign) 
+            insertToContainer(campaign, pushToContainer= true) 
             {
                 if(campaign.tag === 's5' ||  campaign.clicks === 0 ||  campaign.name === 'organic') {
                     return;
@@ -180,29 +195,46 @@
                 if(campaign.tag === 'site_id') {
                     this.groupBy = 's1'
                     this.siteId = campaign.name
+                    this.s1 = '';
+                    this.s2 = '';
+                    this.s3 = '';
+                    this.s4 = '';
+                    this.s5 = '';
                 }
 
                 if(campaign.tag === 's1') {
                     this.s1 = campaign.name
                     this.groupBy = 's2'
+                    this.s2 = '';
+                    this.s3 = '';
+                    this.s4 = '';
+                    this.s5 = '';
                 }
 
                 if(campaign.tag === 's2') {
                     this.s2 = campaign.name
                     this.groupBy = 's3'
+                    this.s3 = '';
+                    this.s4 = '';
+                    this.s5 = '';
                 }
 
                 if(campaign.tag === 's3') {
                     this.s3 = campaign.name
                     this.groupBy = 's4'
+                    this.s4 = '';
+                    this.s5 = '';
                 }
 
                 if(campaign.tag === 's4') {
-                     this.s4 = campaign.name
+                    this.s4 = campaign.name
                     this.groupBy = 's5'
+                    this.s5 = '';
                 }
 
-                this.containers.push(campaign)
+                if(pushToContainer) {
+                    this.containers.push(campaign)
+                }
                 this.fetch(this.groupBy, this.siteId)
             },
 

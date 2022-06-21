@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\WebsiteIds;
 use App\Models\ClickPostback;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,9 +26,8 @@ class CampaignController extends Controller
         $s4 = @$request->s4;
         $s5 = @$request->s5;
 
-        // $s1 = 'GAdatingsitecompare_uk';
-        // $siteId = 1;
-        // $groupBy = 's3';
+        $from = Carbon::parse($request->from)->startOfDay();
+        $to= Carbon::parse($request->to)->startOfDay();
 
         $campaigns = ClickPostback::query()
             ->select(
@@ -53,6 +53,9 @@ class CampaignController extends Controller
             ->when($s5, function ($q)  use ($s5) {
                 return $q->where('s5', $s5);
             })
+            ->whereBetween(
+                'created_at', [$from, $to]
+            )
             ->groupBy($groupBy)
             ->get();
 
