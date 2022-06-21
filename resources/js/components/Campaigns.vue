@@ -175,22 +175,22 @@
                 }
 
                 if(tag === 's1') {
-                     return '>'
+                     return '↳'
                 }
 
                 if(tag === 's2') {
-                   return '>>'
+                   return '\xa0 ↳'
                 }
 
                 if(tag === 's3') {
-                     return '>>>'
+                     return '\xa0\xa0 ↳'
                 }
 
                 if(tag === 's4') {
-                     return '>>>>'
+                     return '\xa0\xa0\xa0↳'
                 }
 
-                return '>>>>>'
+                return '\xa0\xa0\xa0\xa0↳'
 
             },
 
