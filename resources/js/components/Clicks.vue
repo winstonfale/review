@@ -29,7 +29,7 @@
                                 <th width="15%">Date</th>
                                 <th>ShagToday</th>
                                 <th>HookupToday</th>
-                                <th>Site2Night</th>
+                                <th>Shag2night</th>
                                 <th>HoneyNearby</th>
                                 <th>Total</th>
                             </thead>

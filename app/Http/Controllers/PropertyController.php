@@ -56,7 +56,7 @@ class PropertyController extends Controller
                     'ratings' => 3.9
                 ],
 
-                'site2night' => [
+                'Shag2night' => [
                     'url' => null,
                     'members' => null,
                     'reviews' => 1874,

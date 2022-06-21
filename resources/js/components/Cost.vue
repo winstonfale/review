@@ -93,7 +93,6 @@
                 if (confirm("Confirm delete?! This action cannot be undone") == false) {
                     return
                 } 
-
                 axios.post(
                     '/cost/'+id+'/delete'
                 ).then(() => {

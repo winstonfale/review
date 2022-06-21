@@ -129,7 +129,7 @@
                     return 'HookupToday'
                 }
                 if(val === 3) {
-                    return 'Site2night'
+                    return 'Shag2night'
                 }
                 if(val === 4) {
                     return 'HoneyNearby'
