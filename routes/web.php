@@ -38,8 +38,11 @@ Route::group([
     $app->post('review/{id}/mark-as-relevant', 'ReviewController@relevant');
     $app->post('review/{id}/mark-as-unrelevant', 'ReviewController@unrelevant');
 
-    $app->get('clicks', 'ClickController@index')->name('clicks');;
+    $app->get('clicks', 'ClickController@index')->name('clicks');
     $app->post('clicks', 'ClickController@indexData');
+
+    $app->get('campaigns', 'CampaignController@index')->name('campaigns');
+    $app->post('campaigns', 'CampaignController@data');
 
     $app->get('overall', 'ClickController@overall');
 

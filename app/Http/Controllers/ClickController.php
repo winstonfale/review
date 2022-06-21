@@ -17,21 +17,23 @@ class ClickController extends Controller
     }
 
     public function index(Request $request)
-     {
+    {
         return view('clicks');
     }
 
+    
+
     public function overall()
-     {
+    {
 
         $data = [
-           'today' => ClickPostback::select('amount')->whereBetween('postback',[today(),now()])->sum('amount'),
-        //    'yesterday' => ClickPostback::select('amount')->whereBetween('postback',[today()->subDay()->startOfDay(),today()->subDay()->endOfDay()])->sum('amount'),
-           'this_week' => ClickPostback::select('amount')->whereBetween('postback',[today()->startOfWeek(),now()])->sum('amount'),
-           'this_month' => ClickPostback::select('amount')->whereBetween('postback',[today()->startOfMonth(),now()])->sum('amount'),
-           'this_year' => ClickPostback::select('amount')->whereBetween('postback',[today()->startOfYear(),now()])->sum('amount'),
+            'today' => ClickPostback::select('amount')->whereBetween('postback', [today(), now()])->sum('amount'),
+            //    'yesterday' => ClickPostback::select('amount')->whereBetween('postback',[today()->subDay()->startOfDay(),today()->subDay()->endOfDay()])->sum('amount'),
+            'this_week' => ClickPostback::select('amount')->whereBetween('postback', [today()->startOfWeek(), now()])->sum('amount'),
+            'this_month' => ClickPostback::select('amount')->whereBetween('postback', [today()->startOfMonth(), now()])->sum('amount'),
+            'this_year' => ClickPostback::select('amount')->whereBetween('postback', [today()->startOfYear(), now()])->sum('amount'),
         ];
-          
+
         return response($data);
     }
 
@@ -64,16 +66,17 @@ class ClickController extends Controller
             DB::raw('SUM(CASE when postback IS NOT NULL then 1 ELSE 0 END) as conversions'),
             DB::raw('SUM(CASE when postback IS NOT NULL then amount ELSE 0 END) as earnings')
 
-        )->whereBetween('created_at',[$from, $to])
-        ->groupBy('date')
-        ->orderBy('date','DESC')
-        ->get();
+        )->whereBetween('created_at', [$from, $to])
+            ->groupBy('date')
+            ->orderBy('date', 'DESC')
+            ->get();
 
         return response($clicks);
     }
 
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         $request->validate([
             'cid' => 'required'
@@ -110,21 +113,21 @@ class ClickController extends Controller
     // const HookUp69 = 5;
     // const WannaHookup = 6;
 
-    private function getCurrency($site_id){
+    private function getCurrency($site_id)
+    {
 
-         $eur = [1,2,3,4];
-         $cad = [5];
-         $usd = [1,2,3,4];
+        $eur = [1, 2, 3, 4];
+        $cad = [5];
+        $usd = [1, 2, 3, 4];
 
-        if(in_array($site_id, $eur)) {
+        if (in_array($site_id, $eur)) {
             return 'EUR';
         }
 
-        if(in_array($site_id, $cad)) {
+        if (in_array($site_id, $cad)) {
             return 'CAD';
         }
 
         return 'USD';
-
     }
 }
