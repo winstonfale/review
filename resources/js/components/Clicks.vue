@@ -15,7 +15,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ index | wordFilter }}</h5>
-                                        <p class="card-text">€{{ overall | amount }}</p>
+                                        <p class="card-text">${{ overall | amount }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -36,11 +36,11 @@
 
                             <tr v-for="(clicks,index) in data.data" :key="index">
                                <td> {{ clicks.date }} </td>
-                                <td> {{ clicks.shag_clicks }} | <strong>{{ clicks.shag_conversions }}</strong> | €{{ clicks.shag_earnings | amount }} </td>
-                                <td> {{ clicks.hut_clicks }} | <strong>{{ clicks.hut_conversions }}</strong> | €{{ clicks.hut_earnings | amount }} </td>
-                                <td> {{ clicks.site_2_night }} | <strong>{{ clicks.site_2_night_conversions }}</strong>  | €{{ clicks.site_2_night_earnings | amount }} </td>
-                                <td> {{ clicks.honey_nearby }} | <strong>{{ clicks.honey_nearby_conversions }}</strong> | €{{ clicks.honey_nearby_earnings | amount }} </td>
-                                <td> {{ clicks.clicks }} | <strong>{{ clicks.conversions }}</strong> | €{{ clicks.earnings | amount }} </td>
+                                <td> {{ clicks.shag_clicks }} | <strong>{{ clicks.shag_conversions }}</strong> | ${{ clicks.shag_earnings | amount }} </td>
+                                <td> {{ clicks.hut_clicks }} | <strong>{{ clicks.hut_conversions }}</strong> | ${{ clicks.hut_earnings | amount }} </td>
+                                <td> {{ clicks.site_2_night }} | <strong>{{ clicks.site_2_night_conversions }}</strong>  | ${{ clicks.site_2_night_earnings | amount }} </td>
+                                <td> {{ clicks.honey_nearby }} | <strong>{{ clicks.honey_nearby_conversions }}</strong> | ${{ clicks.honey_nearby_earnings | amount }} </td>
+                                <td> {{ clicks.clicks }} | <strong>{{ clicks.conversions }}</strong> | ${{ clicks.earnings | amount }} </td>
                             </tr>
 
                         </table>

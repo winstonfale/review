@@ -40,11 +40,16 @@ Route::group([
 
     $app->get('clicks', 'ClickController@index')->name('clicks');
     $app->post('clicks', 'ClickController@indexData');
+    $app->get('overall', 'ClickController@overall');
 
     $app->get('campaigns', 'CampaignController@index')->name('campaigns');
     $app->post('campaigns', 'CampaignController@data');
 
-    $app->get('overall', 'ClickController@overall');
+
+    $app->get('costs', 'CostController@index')->name('costs');
+    $app->post('costs', 'CostController@data');
+    $app->post('cost/store', 'CostController@store');
+    $app->post('cost/{id}/delete', 'CostController@delete');
 
     $app->group(['namespace' => '\Rap2hpoutre\LaravelLogViewer'], function() use ($app) {
         $app->get('logs', 'LogViewerController@index');

@@ -13,7 +13,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js?062722') }}" defer></script>
+    <script src="{{ asset('js/app.js?062822') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -61,6 +61,7 @@
 
                                     <a class="dropdown-item" href="{{ route('clicks') }}"> Clicks </a>
                                     <a class="dropdown-item" href="{{ route('campaigns') }}"> Campaigns </a>
+                                    <a class="dropdown-item" href="{{ route('costs') }}"> Costs </a>
                                     <a class="dropdown-item" href="{{ route('websites') }}"> Websites </a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"

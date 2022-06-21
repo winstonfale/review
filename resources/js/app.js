@@ -23,7 +23,7 @@ Vue.component('dashboard', require('./components/Dashboard.vue').default);
 Vue.component('websites', require('./components/Websites.vue').default);
 Vue.component('clicks', require('./components/Clicks.vue').default);
 Vue.component('campaigns', require('./components/Campaigns.vue').default);
-
+Vue.component('costs', require('./components/Cost.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
