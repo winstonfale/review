@@ -64,7 +64,7 @@
                 s5: '',
                 groupBy: 'site_id',
                 siteId: null,
-                from: new Date(new Date().setDate(new Date().getDate() - 57)).toISOString().slice(0, 10),
+                from: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().slice(0, 10),
                 to: new Date(new Date).toISOString().slice(0, 10)
             }
         },
