@@ -9,7 +9,8 @@
         <div class="row justify-content-center">
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header cursor" @click="reset(0)">Campaigns
+                    <div class="card-header cursor" @click="reset(0)">Campaigns <br>
+                    <small> {{ _breadCrumbs }}</small>
                     </div>
 
                         <table class="table">
@@ -52,6 +53,43 @@
                 s5: '',
                 groupBy: 'site_id',
                 siteId: null
+            }
+        },
+
+        computed: {
+            _breadCrumbs(){
+                let str =  this.$options.filters.filterName(this.siteId)
+
+                if(!this.s1) {
+                    return str;
+                }
+
+                str = str + ' > ' +this.s1
+
+                 if(!this.s2) {
+                    return str;
+                }
+
+                   str = str + ' > ' +this.s2
+
+                 if(!this.s3) {
+                    return str;
+                }
+
+                   str = str + ' > ' +this.s3
+
+                 if(!this.s4) {
+                    return str;
+                }
+
+                   str = str + ' > ' +this.s4
+
+                 if(!this.s5) {
+                    return str;
+                }
+
+                return str = str + ' > ' +this.s5
+
             }
         },
  
@@ -179,18 +217,18 @@
                 }
 
                 if(tag === 's2') {
-                   return '\xa0 ↳'
+                   return '\xa0\xa0 ↳'
                 }
 
                 if(tag === 's3') {
-                     return '\xa0\xa0 ↳'
+                     return '\xa0\xa0\xa0\xa0 ↳'
                 }
 
                 if(tag === 's4') {
-                     return '\xa0\xa0\xa0↳'
+                     return '\xa0\xa0\xa0\xa0\xa0\xa0 ↳'
                 }
 
-                return '\xa0\xa0\xa0\xa0↳'
+                return '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 ↳'
 
             },
 
