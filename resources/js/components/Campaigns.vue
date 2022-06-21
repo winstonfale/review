@@ -27,7 +27,7 @@
                                 <th>Conversions</th>
                             </thead>
 
-                            <tr v-for="(campaign,index) in containers" :key="campaign.name + index + '1'">
+                            <tr style="background:lightgreen" v-for="(campaign,index) in containers" :key="campaign.name + index + '1'">
                                <td width="40%" class="cursor" @click="insertToContainer(campaign, false)"> {{ getBreadCrumbs(campaign.tag) }} {{ campaign.name | filterName }} </td>
                                <td> {{ campaign.clicks }} </td>
                                <td> {{ campaign.conversions }} </td>
@@ -64,7 +64,7 @@
                 s5: '',
                 groupBy: 'site_id',
                 siteId: null,
-                from: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().slice(0, 10),
+                from: new Date(new Date().setDate(new Date().getDate() - 57)).toISOString().slice(0, 10),
                 to: new Date(new Date).toISOString().slice(0, 10)
             }
         },
@@ -188,6 +188,7 @@
 
             insertToContainer(campaign, pushToContainer= true) 
             {
+                console.log(campaign)
                 if(campaign.tag === 's5' ||  campaign.clicks === 0 ||  campaign.name === 'organic') {
                     return;
                 }
@@ -200,6 +201,7 @@
                     this.s3 = '';
                     this.s4 = '';
                     this.s5 = '';
+                    this.containers = this.containers.filter(item => !(item.tag === 's1' || item.tag === 's2' || item.tag === 's3' || item.tag === 's4' || item.tag === 's5'));
                 }
 
                 if(campaign.tag === 's1') {
@@ -209,6 +211,8 @@
                     this.s3 = '';
                     this.s4 = '';
                     this.s5 = '';
+                    this.containers = this.containers.filter(item => !(item.tag === 's2' || item.tag === 's3' || item.tag === 's4' || item.tag === 's5'));
+
                 }
 
                 if(campaign.tag === 's2') {
@@ -217,6 +221,8 @@
                     this.s3 = '';
                     this.s4 = '';
                     this.s5 = '';
+                    this.containers = this.containers.filter(item => !(item.tag === 's3' || item.tag === 's4' || item.tag === 's5'));
+
                 }
 
                 if(campaign.tag === 's3') {
@@ -224,12 +230,16 @@
                     this.groupBy = 's4'
                     this.s4 = '';
                     this.s5 = '';
+                    this.containers = this.containers.filter(item => !(item.tag === 's4' || item.tag === 's5'));
+
                 }
 
                 if(campaign.tag === 's4') {
                     this.s4 = campaign.name
                     this.groupBy = 's5'
                     this.s5 = '';
+                    this.containers = this.containers.filter(item => !(item.tag === 's5'));
+
                 }
 
                 if(pushToContainer) {
