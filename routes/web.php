@@ -23,6 +23,9 @@ Route::group([
 ], function ($app) {
 
     $app->get('/home', 'HomeController@index')->name('home');
+
+    $app->get('/comments', 'HomeController@comments')->name('comments');
+    
     $app->get('/websites', 'HomeController@websites')->name('websites');
     $app->get('/websites/info', 'HomeController@websitesInfo')->name('websites.info');
 
@@ -44,6 +47,9 @@ Route::group([
 
     $app->get('campaigns', 'CampaignController@index')->name('campaigns');
     $app->post('campaigns', 'CampaignController@data');
+
+    $app->get('dashboard', 'HomeController@index')->name('dashboard');
+    $app->post('dashboard', 'HomeController@dashboard')->name('home');
 
 
     $app->get('costs', 'CostController@index')->name('costs');

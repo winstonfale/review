@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('dashboard', require('./components/Dashboard.vue').default);
+Vue.component('reviews', require('./components/Reviews.vue').default);
 Vue.component('websites', require('./components/Websites.vue').default);
 Vue.component('clicks', require('./components/Clicks.vue').default);
 Vue.component('campaigns', require('./components/Campaigns.vue').default);

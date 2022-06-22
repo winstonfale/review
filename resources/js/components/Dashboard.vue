@@ -1,224 +1,159 @@
+<style scoped>
+.cursor {
+  cursor: pointer;
+}
+</style>
+
 <template>
-   
-        <div class="row justify-content-center">
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header">Comments and Reviews
-                        <div class="float-right">
-                          <select v-model="filters.website_id" @change.prevent="init">
-                                <option value="1">Shagtoday</option>
-                                <option value="2">HookUpToday</option>
-                                <option value="3">BeeDate</option>
-                                <option value="4">OhCupid</option>
-                                <option value="0">All Sites</option>
-                            </select>
+  <div class="row justify-content-center">
+    <div class="col-12" style="margin-bottom: 5px">
+      <span class="float-right">
+        <input type="date" v-model="from" @change="fetch(groupBy, siteId)" />
+        <input type="date" v-model="to" @change="fetch(groupBy, siteId)" />
+      </span>
+    </div>
 
-
-                            <select v-model="filters.status" @change.prevent="init">
-                                <option value="0">Pending</option>
-                                <option value="1">Approved</option>
-                                <option value="2">Rejected</option>
-                                <option value="all">All Reviews</option>
-                            </select>
-
-                            
-                            <select v-model="filters.order_by" @change.prevent="init">
-                                <option value="asc">Sort by Oldest</option>
-                                <option value="desc">Sort by Latest</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="card-body">
-
-                        <div class="row mb-2">
-                            <div class="col-2 offset-8">
-                                <button class="btn btn-sm btn-success form-control" @click.prevent="approveSelected">Approve Selected</button>
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-sm btn-success form-control" @click.prevent="approveAll">Approve All</button>
-                            </div>
-                        </div>
-
-                        <table class="table">
-                            <thead>
-                                <th width="15%">Website & Name</th>
-                                <th>Comment</th>
-                                <th>Rating</th>
-                                <th>Date</th>
-                                <th width="15%">Action</th>
-                            </thead>
-
-                            <tr v-for="(review,index) in data.data" :key="index">
-                                <td>
-                                    <strong>
-                                        <label>
-                                             <input type="checkbox" name="selected" v-model="selected" :value="review.id">
-                                            {{ review.website_url }}
-                                        </label>
-                                    </strong>
-                                    <br>
-                                    {{ review.name }}
-                                </td>
-                                <td>
-                                    <strong>  {{ review.feedback }} </strong> <br>
-                                    {{ review.comment }}
-                                </td>
-                                <td>{{ review.rating }}</td>
-                                <td>{{ review.created_time }} </td>
-                                <td>
-                                    <button v-if="review.status === 1 && review.relevant === 0" style="margin-top:3px; margin-bottom: 5px" class="btn btn-sm btn-info form-control" @click.prevent="markAsRelevant(review.id, index)">Make as relevant</button>
-                                    <button v-if="review.status === 1 && review.relevant === 1" style="margin-top:3px; margin-bottom: 5px" class="btn btn-sm btn-warning form-control" @click.prevent="markAsUnrelevant(review.id, index)">Remove as relevant</button>
-
-
-                                    <button v-if="review.status === 0" style="margin-top:3px; margin-bottom: 5px" class="btn btn-sm btn-success" @click.prevent="approve(review.id, index, true)">Approve and make as relevant</button>
-                                    
-                                    <button v-if="review.status === 0 || review.status === 2" class="btn btn-sm btn-success form-control" @click.prevent="approve(review.id, index)">Approve</button>
-                                   
-                                    <button v-if="review.status === 0 || review.status === 1" style="margin-top:3px" class="btn btn-sm btn-danger form-control" @click.prevent="reject(review.id, index)">Reject</button>
-                                </td>
-                            </tr>
-
-                        </table>
-
-                        <div class="text-center" >
-                            <nav v-show="data.total > 0 ">
-                                <ul class="pagination">
-                                    <li @click.prevent="changePage(page)" class="page-item" v-for="page in data.last_page" :key="'k'+page" :disabled="page === filters.page"><a class="page-link" href="#"> {{ page }} </a></li>
-                                </ul>
-                            </nav>
-                            <p v-show="!(data.total > 0)">No results</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="col-12" style="margin-botton: 10px">
+      <div class="row" style="margin-bottom:20px">
+        <div class="col-3">
+          <div class="card text-center">
+            <div class="card-header">Clicks</div>
+            <h1 style="padding: 30px">{{ data.clicks }}</h1>
+          </div>
         </div>
-  
+
+        <div class="col-3">
+          <div class="card text-center">
+            <div class="card-header">Conversion</div>
+            <h1 style="padding: 30px">{{ data.conversion }}</h1>
+          </div>
+        </div>
+
+        <div class="col-3">
+          <div class="card text-center">
+            <div class="card-header">Revenue</div>
+            <h1 style="padding: 30px">{{ data.earnings }}</h1>
+          </div>
+        </div>
+
+        <div class="col-3">
+          <div class="card text-center">
+            <div class="card-header">Cost</div>
+            <h1 style="padding: 30px">{{ data.cost }}</h1>
+          </div>
+        <button @click.prevent="goToCostPage()" style="border: 1px solid white; padding:10px; width:100%">Add Cost/Revenue</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Campaigns</div>
+
+        <table class="table">
+          <thead>
+            <th width="40%" @click="reset(0)" class="cursor">Campaign</th>
+            <th>Clicks</th>
+            <th>Conversions</th>
+            <th>Earnings</th>
+          </thead>
+
+          <tr
+            v-for="(campaign, index) in data.campaigns"
+            :key="campaign.name + index"
+          >
+            <td width="40%" class="cursor">{{ campaign.site_id | filterName }}</td>
+            <td>{{ campaign.clicks }}</td>
+            <td>{{ campaign.conversions }}</td>
+            <td>{{ campaign.amount }}</td>
+          </tr>
+
+          <tr v-show="(data.campaigns || {}).length === 0">
+            <td colspan="3">No Data</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: 'Dashboard',
+export default {
+  name: "Campaigns",
 
-        data(){
-            return {
-                data: {},
-                filters: {
-                    page: 1,
-                    website_id: 0,
-                    order_by: 'asc',
-                    status: 0,
-                    website_id: 0
-                },
-                selected: []
-            }
-        },
+  data() {
+    return {
+      data: [],
+      groupBy: "site_id",
+      siteId: null,
+      from: new Date(new Date().setDate(new Date().getDate() - 117))
+        .toISOString()
+        .slice(0, 10),
+      to: new Date(new Date()).toISOString().slice(0, 10),
+    };
+  },
 
-        created(){
-          let uri = window.location.search.substring(1); 
-          let params = new URLSearchParams(uri);
+  computed: {},
 
-          let obj = this.filters;
-          Object.keys(obj).forEach((key) => {
-              if(params.get(key)) {
-                  this.filters[key] = params.get(key)
-              }
-          });
-        },
- 
-        mounted() {
-            this.init()
-        },
+  mounted() {
+    this.fetch();
+  },
 
-        methods: {
-            init(){
-                try {
-                    window.history.replaceState('Dashboard', 'Dashboard', window.location.pathname + '?' +new URLSearchParams(this.filters).toString())
-                } catch (e) { }
+  filters: {
+    wordFilter(str) {
+      return str
+        .split("_")
+        .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ");
+    },
+    amount(val) {
+      return val.toFixed(2);
+    },
 
-                axios.get(
-                    '/reviews', {
-                        params: this.filters
-                     })
-                .then((res) => [
-                    this.data = res.data  
-                ])
-            },
+    filterName(val) {
+      if (val === 1) {
+        return "ShagToday";
+      }
+      if (val === 2) {
+        return "HookupToday";
+      }
+      if (val === 3) {
+        return "Shag2night";
+      }
+      if (val === 4) {
+        return "HoneyNearby";
+      }
+      if (val === 5) {
+        return "HookUp69";
+      }
 
-            approve(id,index, relevant = false){
-                axios.post(
-                    '/review/'+id+'/approve', { relevant: relevant })
-                .then((res) => [
-                    this.data.data.splice(index,1)
-                ])
-            },
+      if (val === 5) {
+        return "WannaHookup";
+      }
 
-             reject(id,index){
-                axios.post(
-                    '/review/'+id+'/reject')
-                .then((res) => [
-                    this.data.data.splice(index,1)
-                ])
-            },
+      if (val === 0) {
+        return "organic";
+      }
 
-            markAsRelevant(id,index){
-                axios.post(
-                    '/review/'+id+'/mark-as-relevant')
-                .then((res) => [
-                   this.data.data[index]['relevant'] = res.data.relevant
-                ])
-            },
+      return val;
+    },
+  },
 
-            markAsUnrelevant(id,index){
-                axios.post(
-                    '/review/'+id+'/mark-as-unrelevant')
-                .then((res) => [
-                    this.data.data[index]['relevant'] = res.data.relevant
-                ])
-            },
+  methods: {
+    fetch() {
+      axios
+        .post("/dashboard", {
+          to: this.to,
+          from: this.from,
+        })
+        .then((res) => [(this.data = res.data )])
+        .catch((err) => {});
+    },
 
-            changePage(page) {
-                if(page === this.filters.page) {
-                    return;
-                }
+    goToCostPage(){
+       window.open("/costs","_self");
 
-                this.filters.page = page;
-                this.init()
-            },
-
-            approveSelected(){
-                this.approveBundle(this.selected)
-            },
-
-            approveAll(){
-                if (!window.confirm("Do you really want to approve all?")) {
-                    return;
-                }
-
-                this.approveBundle(this.pluck(this.data.data,'id'))
-            },
-
-            pluck(array, key) {
-                return array.map(function(obj) {
-                    return obj[key];
-                });
-            },
-
-            approveBundle(ids){
-                if(ids.length < 1) {
-                    return;
-                }
-                axios.post(
-                    'review/approve/bundle',  {ids: ids })
-                .then((res) => {
-                    ids.forEach((item, index) => {
-                        this.data.data.splice(item.id,1)
-                    });
-
-                    if(this.data.data.length < 1) {
-                        this.init()
-                    }
-                })
-            },
-        }
     }
+  },
+};
 </script>
