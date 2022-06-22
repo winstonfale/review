@@ -32,14 +32,14 @@
         <div class="col-3">
           <div class="card text-center">
             <div class="card-header">Revenue</div>
-            <h1 style="padding: 30px">{{ data.earnings }}</h1>
+            <h1 style="padding: 30px">{{ data.earnings | amount }}</h1>
           </div>
         </div>
 
         <div class="col-3">
           <div class="card text-center">
             <div class="card-header">Cost</div>
-            <h1 style="padding: 30px">{{ data.cost }}</h1>
+            <h1 style="padding: 30px">{{ data.cost | amount }}</h1>
           </div>
         <button @click.prevent="goToCostPage()" style="border: 1px solid white; padding:10px; width:100%">Add Cost/Revenue</button>
         </div>
@@ -65,7 +65,7 @@
             <td width="40%" class="cursor">{{ campaign.site_id | filterName }}</td>
             <td>{{ campaign.clicks }}</td>
             <td>{{ campaign.conversions }}</td>
-            <td>{{ campaign.amount }}</td>
+            <td>{{ campaign.amount | amount }}</td>
           </tr>
 
           <tr v-show="(data.campaigns || {}).length === 0">
@@ -78,6 +78,8 @@
 </template>
 
 <script>
+var date = new Date();
+
 export default {
   name: "Campaigns",
 
@@ -86,9 +88,7 @@ export default {
       data: [],
       groupBy: "site_id",
       siteId: null,
-      from: new Date(new Date().setDate(new Date().getDate() - 117))
-        .toISOString()
-        .slice(0, 10),
+      from: new Date(date.getFullYear(), date.getMonth(), 2).toISOString().slice(0, 10),
       to: new Date(new Date()).toISOString().slice(0, 10),
     };
   },
@@ -107,6 +107,9 @@ export default {
         .join(" ");
     },
     amount(val) {
+        if(!val) {
+            return 0;
+        }
       return val.toFixed(2);
     },
 
