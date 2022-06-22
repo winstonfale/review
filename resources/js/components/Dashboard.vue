@@ -135,7 +135,7 @@ export default {
       }
 
       if (val === 0) {
-        return "organic";
+        return "No Record";
       }
 
       return val;

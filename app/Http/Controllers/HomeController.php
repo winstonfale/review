@@ -46,7 +46,7 @@ class HomeController extends Controller
         $siteId = $request->siteId;
 
         $from = Carbon::parse($request->from)->startOfDay();
-        $to= Carbon::parse($request->to)->startOfDay();
+        $to= Carbon::parse($request->to)->endOfDay();
 
         $campaigns = ClickPostback::query()
             ->select(

@@ -32,7 +32,7 @@ class CampaignController extends Controller
         $s5 = @$request->s5;
 
         $from = Carbon::parse($request->from)->startOfDay();
-        $to= Carbon::parse($request->to)->startOfDay();
+        $to= Carbon::parse($request->to)->endOfDay();
 
         $campaigns = ClickPostback::query()
             ->select(
