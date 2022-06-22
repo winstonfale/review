@@ -18,6 +18,12 @@
 
 <template>
   <div class="row">
+  <div class="col-12" style="margin-bottom: 5px">
+    <span class="float-right">
+        <input type="date" v-model="globalFrom" required @change="fetch" />
+        <input type="date" v-model="globalTo" required @change="fetch" />
+    </span>
+  </div>
     <div class="col-12">
       <div class="row">
         <div class="col-6 text-center gray-div">
@@ -49,20 +55,16 @@
 
         <table class="table">
           <thead>
-            <th>Date</th>
-            <th>Cost</th>
+            <th>Brands</th>
+            <th>Earnings</th>
             <th></th>
           </thead>
           <tr v-for="(earning, index) in earnings.list" :key="'cost' + index">
-            <td>{{ earning.from }} - {{ cost.to }}</td>
-            <td>{{ earning.cost }}</td>
+            <td>{{ earning.site_id | filterName }}</td>
+            <td>${{ earning.earnings }}</td>
             <td>
-              <button
-                class="btn btn-danger"
-                disabled
-              >
-                Delete
-              </button>
+            -
+              
             </td>
           </tr>
         </table>
@@ -98,15 +100,24 @@
             <th></th>
           </thead>
           <tr v-for="(cost, index) in costs.list" :key="'cost' + index">
-            <td>{{ cost.from }} - {{ cost.to }}</td>
+            <td>{{ cost.from | filterDate }} - {{ cost.to | filterDate }}</td>
             <td>${{ cost.cost }}</td>
             <td>
-              <button
-                class="btn btn-danger"
+             <a
+                href="javascript:;"
+                disabled
+              >
+                Edit 
+              </a>
+
+              | 
+
+              <a
+                href="javascript:;"
                 @click.prevent="deleteRecord(cost.id)"
               >
                 Delete
-              </button>
+              </a>
             </td>
           </tr>
         </table>
@@ -116,6 +127,8 @@
 </template>
 
 <script>
+var date = new Date();
+
 export default {
   name: "Campaigns",
 
@@ -128,6 +141,8 @@ export default {
         .toISOString()
         .slice(0, 10),
       to: new Date(new Date()).toISOString().slice(0, 10),
+      globalFrom: new Date(date.getFullYear(), date.getMonth(), 2).toISOString().slice(0, 10),
+      globalTo: new Date(new Date()).toISOString().slice(0, 10)
     };
   },
 
@@ -139,8 +154,8 @@ export default {
     fetch() {
       axios
         .post("/costs", {
-          to: this.to,
-          from: this.from,
+          to: this.globalTo,
+          from: this.globalFrom,
         })
         .then((res) => {
             this.costs = res.data.costs
@@ -180,6 +195,41 @@ export default {
           alert("Error");
         });
     },
+  },
+  
+  filters: {
+      filterName(val){
+        if(val === 1) {
+            return 'ShagToday'
+        }
+        if(val === 2) {
+            return 'HookupToday'
+        }
+        if(val === 3) {
+            return 'Shag2night'
+        }
+        if(val === 4) {
+            return 'HoneyNearby'
+        }
+        if(val === 5) {
+            return 'HookUp69'
+        }
+
+        if(val === 5) {
+            return 'WannaHookup'
+        }
+
+        if(val === 0) {
+            return 'organic'
+        }
+
+        return val;
+    },
+
+    filterDate(val) {
+       return new Date(val).toLocaleString('en-GB').slice(0, 10)
+    }
+    
   },
 };
 </script>

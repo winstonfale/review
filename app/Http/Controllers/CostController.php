@@ -22,7 +22,6 @@ class CostController extends Controller
 
     public function data(Request $request)
     {
-
         $from = @$request->from ? Carbon::parse($request->from)->startOfDay() : today()->subDay(7);
         $to = @$request->to ? Carbon::parse($request->to)->endOfDay() : now();
 
