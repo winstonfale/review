@@ -33,7 +33,7 @@ class CostController extends Controller
             ->get();
 
 
-        $costs = Cost::select('cost', 'from', 'to')
+        $costs = Cost::select('cost', 'from', 'to','id')
             ->whereBetween('created_at', [$from, $to])
             ->latest()
             ->get();

@@ -28,13 +28,13 @@
       <div class="row">
         <div class="col-6 text-center gray-div">
           <h2>Revenue</h2>
-        <h1>${{ earnings.total }}</h1>
+        <h1>${{ earnings.total | amount }}</h1>
 
         </div>
 
         <div class="col-6 text-center gray-div">
           <h2>Cost</h2>
-          <h1>${{ costs.total }}</h1>
+          <h1>${{ costs.total | amount }}</h1>
 
         </div>
       </div>
@@ -61,7 +61,7 @@
           </thead>
           <tr v-for="(earning, index) in earnings.list" :key="'cost' + index">
             <td>{{ earning.site_id | filterName }}</td>
-            <td>${{ earning.earnings }}</td>
+            <td>${{ earning.earnings | amount }}</td>
             <td>
             -
               
@@ -101,7 +101,7 @@
           </thead>
           <tr v-for="(cost, index) in costs.list" :key="'cost' + index">
             <td>{{ cost.from | filterDate }} - {{ cost.to | filterDate }}</td>
-            <td>${{ cost.cost }}</td>
+            <td>${{ cost.cost| amount }}</td>
             <td>
              <a
                 href="javascript:;"
@@ -198,6 +198,13 @@ export default {
   },
   
   filters: {
+      amount(val) {
+          if(!val) {
+              return 0;
+          }
+          return val.toFixed(2);
+      },
+
       filterName(val){
         if(val === 1) {
             return 'ShagToday'
@@ -220,7 +227,7 @@ export default {
         }
 
         if(val === 0) {
-            return 'organic'
+            return 'N/A'
         }
 
         return val;
