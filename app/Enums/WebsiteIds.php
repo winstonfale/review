@@ -17,4 +17,6 @@ final class WebsiteIds extends Enum
     const HoneyNearby = 4;
     const HookUp69 = 5;
     const WannaHookup = 6;
+    const SlagsGoWild = 7;
+    const Together2Night = 8;
 }
