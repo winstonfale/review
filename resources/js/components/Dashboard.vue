@@ -130,16 +130,24 @@ export default {
         return "HookUp69";
       }
 
-      if (val === 5) {
+      if (val === 6) {
         return "WannaHookup";
       }
 
+      if (val === 7) {
+        return "SlagsGoWild";
+      }
+
+      if (val === 8) {
+        return "Together2Night";
+      }
+
       if (val === 0) {
-        return "No Record";
+        return "organic";
       }
 
       return val;
-    },
+    }
   },
 
   methods: {

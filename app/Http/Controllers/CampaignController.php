@@ -22,6 +22,66 @@ class CampaignController extends Controller
 
     public function data(Request $request)
     {
+
+        return [
+            "campaigns"=>[
+              [
+                "clicks"=>1650,
+                "conversions"=>"37",
+                "amount"=>38.00000000000004,
+                "site_id"=>0,
+                "name"=>"organic"
+              ],
+              [
+                "clicks"=>954,
+                "conversions"=>"51",
+                "amount"=>50.1,
+                "site_id"=>1,
+                "name"=>"organic"
+              ],
+              [
+                "clicks"=>277,
+                "conversions"=>"5",
+                "amount"=>26.25,
+                "site_id"=>3,
+                "name"=>"organic"
+              ],
+              [
+                "clicks"=>449,
+                "conversions"=>"16",
+                "amount"=>16,
+                "site_id"=>2,
+                "name"=>"organic"
+              ],
+              [
+                "clicks"=>147,
+                "conversions"=>"5",
+                "amount"=>25,
+                "site_id"=>4,
+                "name"=>"organic"
+              ],
+              [
+                "clicks"=>10,
+                "conversions"=>"0",
+                "amount"=>0,
+                "site_id"=>7,
+                "name"=>"organic"
+              ],
+              [
+                "clicks"=>13,
+                "conversions"=>"1",
+                "amount"=>1.7,
+                "site_id"=>8,
+                "name"=>"organic"
+              ]
+            ],
+            "clicks"=>3500,
+            "conversion"=>115,
+            "earnings"=>157.05000000000004,
+            "cost"=>0
+        ];
+
+
         $groupBy = $request->groupBy;
         $siteId = $request->siteId;
 
